@@ -10,9 +10,13 @@ import com.example.demo.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -27,4 +31,12 @@ public class CategoryController
     {
         return categoryService.add(request);
     }
+
+    @GetMapping
+    public List<CategoryResponse> fetchCategories()
+    {
+        return categoryService.read();
+    }
+
+
 }

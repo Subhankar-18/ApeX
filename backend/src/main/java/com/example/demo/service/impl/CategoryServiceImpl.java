@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -26,6 +27,14 @@ public class CategoryServiceImpl implements CategoryService
         return convertToResponse(newCategory);
     }
 
+    @Override
+    public List<CategoryResponse> read() {
+        return categoryRepository.findAll()
+        .stream()
+        .map(CategoryEntity->convertToResponse(CategoryEntity))
+        .toList();
+    }
+
     private CategoryResponse convertToResponse(CategoryEntity newCategory) 
     {
         return CategoryResponse.builder()
@@ -48,5 +57,10 @@ public class CategoryServiceImpl implements CategoryService
         .bgColor(request.getBgColor())
         .build();
     }
+
+
+
+
+   
     
 }

@@ -35,6 +35,14 @@ public class CategoryServiceImpl implements CategoryService
         .toList();
     }
 
+    @Override
+    public void delete(String categoryId) {
+        CategoryEntity existingcategory =categoryRepository.findByCategoryId(categoryId)
+        .orElseThrow(()->new RuntimeException("CATEGORY NOT FOUND"));
+
+        categoryRepository.delete(existingcategory);
+    }
+
     private CategoryResponse convertToResponse(CategoryEntity newCategory) 
     {
         return CategoryResponse.builder()
@@ -58,9 +66,7 @@ public class CategoryServiceImpl implements CategoryService
         .build();
     }
 
-
-
-
-   
+    
+ 
     
 }

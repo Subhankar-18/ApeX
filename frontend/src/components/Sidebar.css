@@ -1,0 +1,42 @@
+.sidebar {
+  width: 100px;
+  height: 100vh;
+  background-color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.nav-item {
+  color: #94a3b8;
+  font-size: 20px;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #1e293b;
+  color: white;
+}
+
+/* ACTIVE PAGE INDICATOR */
+.nav-item.active {
+  background-color: #2563eb;
+  color: white;
+}

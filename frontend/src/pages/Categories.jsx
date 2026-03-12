@@ -1,180 +1,215 @@
-import { useEffect, useState } from "react";
-import { addCategory, getCategories, deleteCategory } from "../services/categoryService";
-import "./Categories.css";
+import { useState, useEffect } from "react";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import CategoryCard from "../components/CategoryCard";
+import { FiUploadCloud } from "react-icons/fi";
+
+import {
+  addCategory,
+  getCategories,
+  deleteCategory
+} from "../services/categoryService";
+
+import "../styles/categories.css";
 
 function Categories() {
 
-  const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
+const [categories,setCategories] = useState([]);
+const [search,setSearch] = useState("");
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [bgColor, setBgColor] = useState("#3b82f6");
-  const [image, setImage] = useState(null);
+const [form,setForm] = useState({
+name:"",
+description:"",
+color:"#8b5cf6",
+image:null
+});
 
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+useEffect(()=>{
+loadCategories();
+},[]);
 
-  const loadCategories = async () => {
-  try {
-    setLoading(true);
-
-    const data = await getCategories();
-
-    setCategories(data);
-    setFilteredCategories(data);
-
-  } catch (error) {
-    console.error("Error loading categories:", error);
-  } finally {
-    setLoading(false);
-  }
+const loadCategories = async ()=>{
+const data = await getCategories();
+console.log(data); 
+setCategories(data);
 };
 
-  useEffect(() => {
-    loadCategories();
-  }, []);
+const handleChange=(e)=>{
+setForm({...form,[e.target.name]:e.target.value});
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleFile=(e)=>{
+setForm({...form,image:e.target.files[0]});
+};
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("bgColor", bgColor);
-    formData.append("file", image);
+const handleSubmit=async(e)=>{
+e.preventDefault();
 
-    await addCategory(formData);
+const data=new FormData();
+data.append("name", form.name);
+data.append("description", form.description);
+data.append("bgColor", form.color);
+data.append("file", form.image);
 
-    setName("");
-    setDescription("");
-    setImage(null);
+await addCategory(data);
 
-    loadCategories();
-  };
+setForm({
+name:"",
+description:"",
+color:"#8b5cf6",
+image:null
+});
 
-  const handleDelete = async (id) => {
-    await deleteCategory(id);
-    loadCategories();
-  };
+loadCategories();
+};
 
-  const handleSearch = (value) => {
-    setSearch(value);
+const handleDelete = async (id) => {
+  await deleteCategory(id);
+  loadCategories();
+};
 
-    const filtered = categories.filter((cat) =>
-      cat.name.toLowerCase().includes(value.toLowerCase())
-    );
+const filtered = categories.filter((c) => {
 
-    setFilteredCategories(filtered);
-  };
+const text = search.trim().toLowerCase();
 
-  return (
-    <div className="categories-page">
+if (!text) return true;
 
-      <h1 className="page-title">Category Management</h1>
+return (
+(c.name || "").toLowerCase().includes(text) ||
+(c.description || "").toLowerCase().includes(text)
+);
 
-      {/* CONTROLS */}
-      <div className="controls">
+});
 
-        <input
-          className="search-input"
-          type="text"
-          placeholder="Search categories..."
-          value={search}
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+return(
 
-        {/* ADD CATEGORY FORM */}
-        <form className="category-form" onSubmit={handleSubmit}>
+<div className="layout">
 
-          <div className="form-left">
+<Sidebar/>
 
-          <input
-            type="text"
-            placeholder="Category Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+<div className="main">
 
-          <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+<Navbar/>
 
-          <input
-            type="color"
-            value={bgColor}
-            onChange={(e) => setBgColor(e.target.value)}
-          />
+<div className="content">
 
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
+<h1 className="page-title">Manage Categories</h1>
+<p className="page-sub">Add, edit, or remove product categories</p>
 
-          </div>
+<input
+className="search-bar"
+placeholder="Search categories"
+value={search}
+onChange={(e)=>setSearch(e.target.value.trimStart())}
+/>
 
-          <button type="submit">
-            Add Category
-          </button>
+{/* FORM CARD */}
 
-        </form>
-        
+<div className="form-card">
 
-      </div>
+<h2>Add New Category</h2>
 
-      {/* LOADING */}
-      {loading && <div className="spinner"></div>}
+<form onSubmit={handleSubmit}>
 
-      {/* CATEGORY GRID */}
-      <div className="category-grid">
+<div className="form-row">
 
-        {filteredCategories.map((cat) => (
+<div className="form-group">
+<label>Category Name</label>
+<input
+name="name"
+placeholder="Enter category name"
+value={form.name}
+onChange={handleChange}
+/>
+</div>
 
-          <div
-            className="category-card"
-            key={cat.categoryId}
-            style={{ backgroundColor: cat.bgColor }}
-          >
+<div className="form-group">
+<label>Background Color</label>
 
-            <img
-              className="category-image"
-              src={cat.imgUrl}
-              alt={cat.name}
-            />
+<div className="color-row">
 
-            <h3>{cat.name}</h3>
+<input
+type="color"
+name="color"
+value={form.color}
+onChange={handleChange}
+/>
 
-            <p className="category-description">
-              {cat.description}
-            </p>
+<input
+name="color"
+value={form.color}
+onChange={handleChange}
+/>
 
-            <div className="card-buttons">
+</div>
 
-              <button className="edit-btn">
-                Edit
-              </button>
+</div>
 
-              <button
-                className="delete-btn"
-                onClick={() => handleDelete(cat.categoryId)}
-              >
-                Delete
-              </button>
+</div>
 
-            </div>
+<div className="form-group">
+<label>Description</label>
+<textarea
+name="description"
+placeholder="Enter category description"
+value={form.description}
+onChange={handleChange}
+/>
+</div>
 
-          </div>
+<div className="upload-box">
 
-        ))}
+<label htmlFor="imageUpload" className="upload-label">
 
-      </div>
+<FiUploadCloud className="upload-icon"/>
 
-    </div>
-  );
+<p>Click to upload or drag and drop</p>
+<span>SVG, PNG, JPG or GIF (max. 800x400px)</span>
 
-  }
-export default Categories; 
+</label>
+
+<input
+id="imageUpload"
+type="file"
+onChange={handleFile}
+/>
+
+</div>
+
+<button className="submit-btn">
+Add Category
+</button>
+
+</form>
+
+</div>
+
+{/* CATEGORY GRID */}
+
+<h2 className="category-title">
+All Categories ({filtered.length})
+</h2>
+
+<div className="category-grid">
+
+{filtered.map(cat=>(
+<CategoryCard
+key={cat.categoryId}
+category={cat}
+onDelete={handleDelete}
+/>
+))}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+);
+
+}
+
+export default Categories;

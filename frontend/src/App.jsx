@@ -1,24 +1,31 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
+import Explore from "./pages/Explore";
 import Categories from "./pages/Categories";
+import Users from "./pages/Users";
+import Orders from "./pages/Orders";
 
 function App() {
-  return (
-    <BrowserRouter>
 
-      <DashboardLayout>
+return(
 
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/categories" element={<Categories />} />
-        </Routes>
+<BrowserRouter>
 
-      </DashboardLayout>
+<Routes>
 
-    </BrowserRouter>
-  );
+<Route path="/" element={<Dashboard/>}/>
+<Route path="/explore" element={<Explore/>}/>
+<Route path="/categories" element={<Categories/>}/>
+<Route path="/users" element={<Users/>}/>
+<Route path="/orders" element={<Orders/>}/>
+
+</Routes>
+
+</BrowserRouter>
+
+)
+
 }
 
-export default App;
+export default App

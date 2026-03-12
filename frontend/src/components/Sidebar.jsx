@@ -1,41 +1,59 @@
+import "../styles/sidebar.css";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaBox, FaUsers, FaShoppingCart, FaCog } from "react-icons/fa";
-import "./Sidebar.css";
 
 function Sidebar() {
-  return (
-    <div className="sidebar">
 
-      <div className="logo">
-        ApeX
-      </div>
+return(
 
-      <nav className="sidebar-nav">
+<div className="sidebar">
 
-        <NavLink to="/dashboard" className="nav-item">
-          <FaHome />
-        </NavLink>
+<div className="logo">
+<div className="logo-box">A</div>
+<span>ApeX</span>
+</div>
 
-        <NavLink to="/items" className="nav-item">
-          <FaShoppingCart />
-        </NavLink>
+<ul>
 
-        <NavLink to="/categories" className="nav-item">
-          <FaBox />
-        </NavLink>
+<li>
+<NavLink to="/" className="nav-item">
+Dashboard
+</NavLink>
+</li>
 
-        <NavLink to="/users" className="nav-item">
-          <FaUsers />
-        </NavLink>
+<li>
+<NavLink to="/explore" className="nav-item">
+Explore
+</NavLink>
+</li>
 
-        <NavLink to="/settings" className="nav-item">
-          <FaCog />
-        </NavLink>
+<li>
+<NavLink to="/categories" className="nav-item">
+Manage Categories
+</NavLink>
+</li>
 
-      </nav>
+<li>
+<NavLink to="/users" className="nav-item">
+Manage Users
+</NavLink>
+</li>
 
-    </div>
-  );
+<li>
+<NavLink to="/orders" className="nav-item">
+Order History
+</NavLink>
+</li>
+
+<li className="nav-item">
+Settings
+</li>
+
+</ul>
+
+</div>
+
+)
+
 }
 
-export default Sidebar;
+export default Sidebar

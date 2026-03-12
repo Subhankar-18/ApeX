@@ -1,0 +1,37 @@
+.orders{
+background:#0f172a;
+padding:20px;
+border-radius:14px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+text-align:left;
+color:#94a3b8;
+font-size:14px;
+padding-bottom:10px;
+}
+
+td{
+padding:14px 0;
+border-top:1px solid #1e293b;
+}
+
+.paid{
+background:#065f46;
+color:#10b981;
+padding:4px 10px;
+border-radius:10px;
+}
+
+.pending{
+background:#78350f;
+color:#f59e0b;
+padding:4px 10px;
+border-radius:10px;
+}

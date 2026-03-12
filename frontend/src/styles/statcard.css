@@ -1,0 +1,41 @@
+.stat-card{
+padding:22px;
+border-radius:14px;
+background:#0f172a;
+border:1px solid #1e293b;
+transition:0.2s;
+}
+
+.stat-card:hover{
+transform:translateY(-3px);
+}
+
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.icon{
+background:linear-gradient(45deg,#7c3aed,#06b6d4);
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:10px;
+font-size:18px;
+}
+
+.stat-card h4{
+color:#94a3b8;
+margin:0;
+}
+
+.stat-card h2{
+margin:8px 0;
+}
+
+.stat-card p{
+color:#22c55e;
+}
